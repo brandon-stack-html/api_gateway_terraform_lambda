@@ -1,26 +1,15 @@
-Hello (AWS) Lambda with Terraform
+Hola (AWS) Lambda con Terraform
 =================================
 
-[![Build Status](https://travis-ci.org/BWITS/Terraform-lambda-apigateway.svg?branch=master)](https://travis-ci.org/BWITS/Terraform-lambda-apigateway)
+[![Estado de la Construcción](https://travis-ci.org/BWITS/Terraform-lambda-apigateway.svg?branch=master)](https://travis-ci.org/BWITS/Terraform-lambda-apigateway)
 
-This project is an example of a Python (AWS)
-[Lambda](https://aws.amazon.com/lambda/) exposed with [API
-Gateway](https://aws.amazon.com/api-gateway/), configured with
-[Terraform](https://www.terraform.io/). This demo project is related to the
-following blog post: [A Tour of AWS
-Lambda](https://tailordev.fr/blog/2016/07/08/a-tour-of-aws-lambda/).
-
+Este proyecto es un ejemplo de una [Lambda](https://aws.amazon.com/lambda/) de Python (AWS) expuesta con [API Gateway](https://aws.amazon.com/api-gateway/), configurada con [Terraform](https://www.terraform.io/). Este proyecto de demostración está relacionado con la siguiente publicación de blog: [Un recorrido por AWS Lambda](https://tailordev.fr/blog/2016/07/08/a-tour-of-aws-lambda/).
 
 ![](doc/big-picture.png)
 
+## Introducción
 
-## Introduction
-
-This demo project creates a `/hello` endpoint with two methods (`GET` and
-`POST`). Both methods are bound to a **single file** containing two handlers
-(a.k.a. lambda functions, one for each method). This is defined by a `handler`
-parameter. The code for each lambda function is written in Python (method names
-are just a convention):
+Este proyecto de demostración crea un punto final `/hello` con dos métodos (`GET` y `POST`). Ambos métodos están vinculados a un **único archivo** que contiene dos manejadores (también conocidos como funciones lambda, uno para cada método). Esto se define mediante un parámetro `handler`. El código para cada función lambda está escrito en Python (los nombres de los métodos son solo una convención):
 
 ```python
 def handler(event, context):
@@ -30,50 +19,39 @@ def post_handler(event, context):
     return { "message": "I should have created something..." }
 ```
 
-The [Terraform configuration](hello_lambda.tf) relies on two modules:
-[`lambda`](lambda/) and [`api_method`](api_method/). See the [Terraform Modules
-section](#terraform-modules) for further information. This configuration creates
-two lambda functions on AWS Lambda, a (deployed) REST API with a single endpoint
-and two HTTP methods on API Gateway, and takes care of the permissions and
-credentials. The figure below is an example of what you get in the API Gateway
-dashboard:
+La [configuración de Terraform](hello_lambda.tf) se basa en dos módulos: [`lambda`](lambda/) y [`api_method`](api_method/). Consulta la [sección de Módulos de Terraform](#módulos-de-terraform) para más información. Esta configuración crea dos funciones lambda en AWS Lambda, una API REST (desplegada) con un único punto final y dos métodos HTTP en API Gateway, y se encarga de los permisos y credenciales. La figura de abajo es un ejemplo de lo que obtienes en el panel de control de API Gateway:
 
 ![](doc/hello.png)
 
+## Primeros pasos
 
-## Getting started
+Debes tener una [cuenta de AWS](http://aws.amazon.com/). A continuación, debes [instalar Terraform](https://www.terraform.io/intro/getting-started/install.html) primero.
 
-You must have an [AWS account](http://aws.amazon.com/). Next, you must [install
-Terraform](https://www.terraform.io/intro/getting-started/install.html) first.
-
-Clone this repository, then run:
+Clona este repositorio, luego ejecuta:
 
     $ make get
 
-Create a `terraform.tfvars` file with the content below. This step is optional
-as Terraform will ask you to fill in the different values, but it is convenient.
+Crea un archivo `terraform.tfvars` con el contenido de abajo. Este paso es opcional ya que Terraform te pedirá que rellenes los diferentes valores, pero es conveniente.
 
 ```ini
 aws_region     = "eu-west-1"
 ```
 
-You are now ready to use Terraform!
+¡Ahora estás listo para usar Terraform!
 
     $ make plan
 
-If everything is OK, you can build the whole infrastructure:
+Si todo está bien, puedes construir toda la infraestructura:
 
     $ make apply
 
-You can destroy all the components by running:
+Puedes destruir todos los componentes ejecutando:
 
     $ make destroy
 
-For more information, please read [the Terraform
-documentation](https://www.terraform.io/docs/index.html).
+Para más información, por favor lee [la documentación de Terraform](https://www.terraform.io/docs/index.html).
 
-
-## Terraform Modules
+## Módulos de Terraform
 
 ### `lambda`
 
@@ -82,15 +60,12 @@ module "lambda" {
   source  = "github.com/TailorDev/hello-lambda/lambda"
   name    = "my-lambda"
   handler = "handler"
-  runtime = "python2.7" # could be nodejs | nodejs4.3 | java8 | python2.7
+  runtime = "python2.7" # podría ser nodejs | nodejs4.3 | java8 | python2.7
   role    = "my-role"
 }
 ```
 
-**Important:** this module assumes that the source file, the lambda (in AWS),
-and the zip file have the **same name**. For example, we use `hello_lambda` in
-this project. The `handler` parameter distinguishes the different lambda
-functions that can be invoked.
+**Importante:** este módulo asume que el archivo fuente, la lambda (en AWS), y el archivo zip tienen el **mismo nombre**. Por ejemplo, usamos `hello_lambda` en este proyecto. El parámetro `handler` distingue las diferentes funciones lambda que se pueden invocar.
 
 ### `api_method`
 
@@ -105,4 +80,4 @@ module "hello_post" {
   region      = "eu-west-1"
   account_id  = "account-id"
 }
-
+```
