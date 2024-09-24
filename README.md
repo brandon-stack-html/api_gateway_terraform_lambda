@@ -105,10 +105,4 @@ module "hello_post" {
   region      = "eu-west-1"
   account_id  = "account-id"
 }
-```
 
-
-## License
-
-This project and its Terraform modules are released under the MIT License. See
-the bundled [LICENSE](LICENSE.md) file for details.
