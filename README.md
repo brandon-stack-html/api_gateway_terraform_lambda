@@ -1,7 +1,5 @@
-Hola (AWS) Lambda con Terraform
+(AWS) Lambda con Terraform
 =================================
-
-[![Estado de la Construcción](https://travis-ci.org/BWITS/Terraform-lambda-apigateway.svg?branch=master)](https://travis-ci.org/BWITS/Terraform-lambda-apigateway)
 
 Este proyecto es un ejemplo de una [Lambda](https://aws.amazon.com/lambda/) de Python (AWS) expuesta con [API Gateway](https://aws.amazon.com/api-gateway/), configurada con [Terraform](https://www.terraform.io/). Este proyecto de demostración está relacionado con la siguiente publicación de blog: [Un recorrido por AWS Lambda](https://tailordev.fr/blog/2016/07/08/a-tour-of-aws-lambda/).
 
@@ -25,7 +23,6 @@ La [configuración de Terraform](hello_lambda.tf) se basa en dos módulos: [`lam
 
 ## Primeros pasos
 
-Debes tener una [cuenta de AWS](http://aws.amazon.com/). A continuación, debes [instalar Terraform](https://www.terraform.io/intro/getting-started/install.html) primero.
 
 Clona este repositorio, luego ejecuta:
 
